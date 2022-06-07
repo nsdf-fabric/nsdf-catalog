@@ -1,0 +1,16 @@
+# Bringup of Frontend and Backend
+- name: "Launch REST backend server"
+  docker:
+    name: backend
+    image: ./services/backend
+    env:
+      SOME_ENV_VAR: avalue
+
+- name: "Launch NSDF-Data-Catalog server"
+  docker:
+    name: frontend
+    image: ./services/frontend
+    links:
+      - db: mysql
+    ports:
+      - 8080:80

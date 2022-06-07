@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# make sourceable from everywhere
+THIS=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+>&2 echo $THIS
+
+
+# Populate standard environment variables to find binaries (ours take precedence)
+export PATH=$THIS/bin:$PATH
+export LD_LIBRARY_PATH=$THIS/lib:$LD_LIBRARY_PATH
+
+# Source a python environement:
+# e.g.,
+. $THIS/venv/bin/activate
+export PYTHONPATH=$THIS:$PYTHONPATH
+
+
+alias nsdf-cloud="python3 -m nsdf.cloud"
