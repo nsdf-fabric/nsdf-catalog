@@ -7,11 +7,8 @@ from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
 from fastapi.security import OAuth2
 from fastapi.security.utils import get_authorization_scheme_param
 from jose import JWTError, jwt
-from tortoise.exceptions import DoesNotExist
 
 from src.schemas.token import TokenData
-from src.schemas.users import UserOutSchema
-from src.database.models import Users
 
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -49,7 +46,7 @@ class OAuth2PasswordBearerCookie(OAuth2):
         return param
 
 
-security = OAuth2PasswordBearerCookie(token_url="/login")
+security = OAuth2PasswordBearerCookie(token_url="/auth/login")
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
@@ -67,6 +64,10 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 
 async def get_current_user(token: str = Depends(security)):
+    """
+    Decodes the token and validates the user, if any.
+    """
+
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",
@@ -83,9 +84,8 @@ async def get_current_user(token: str = Depends(security)):
         raise credentials_exception
 
     try:
-        user = await UserOutSchema.from_queryset_single(
-            Users.get(username=token_data.username)
-        )
+        # TODO: check if valid user with extra priviledges
+        user = {"username": "user1"}
     except DoesNotExist:
         raise credentials_exception
 

@@ -10,9 +10,4 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-
-# for migrations
-COPY migrations .
-COPY aerich.ini .
-
 COPY src/ .

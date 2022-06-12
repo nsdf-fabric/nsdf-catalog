@@ -27,3 +27,9 @@ backup-volumes:
 
 restore-volumes:
 
+
+
+
+
+distclean:
+	docker-compose rm
