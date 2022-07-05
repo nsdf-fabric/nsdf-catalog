@@ -1,0 +1,3 @@
+[submodule "dependencies/nsdf-software-stack"]
+	path = dependencies/nsdf-software-stack
+	url = git@github.com:nsdf-fabric/nsdf-software-stack.git
