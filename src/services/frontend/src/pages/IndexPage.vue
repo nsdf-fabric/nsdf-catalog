@@ -12,7 +12,7 @@
 
             <q-form
                 class="q-gutter-md"
-                action="#/results"
+                action="#/search"
                 method="get"
                 >
                 <q-input name="query" v-model="search" filled type="search" hint="Search" style="width: 500px;">
@@ -34,12 +34,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { 
+    defineComponent, 
+    ref, 
+    watch,
+    onMounted,
+    computed
+} from 'vue';
+import { useQuasar } from 'quasar';
+import { useRouter, useRoute } from 'vue-router'
+
 
 export default defineComponent({
 	name: 'IndexPage',
 	setup() {
+        const $q = useQuasar()
+        const router = useRouter()
+        const route = useRoute()
 
+        // data exposed to public and templates
 		return { 
 			search: ref(''),
 		};

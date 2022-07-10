@@ -9,22 +9,33 @@ services:
       - 5000:5000
     environment:
       - DATABASE_URL=postgres://hello_fastapi:hello_fastapi@rest_endpoint_db:5432/rest_endpoint_db_user
+      - DATABASE_URL=nsdf_catalog_index
       - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
     volumes:
       - ./src/services/rest_endpoint:/app:Z
     command: uvicorn src.main:app --reload --host 0.0.0.0 --port 5000
 
-  # State of REST Endpoint: e.g, list of registered users, repositories
-  rest_endpoint_db:
-    image: docker.io/postgres:13
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_USER=hello_fastapi
-      - POSTGRES_PASSWORD=hello_fastapi
-      - POSTGRES_DB=rest_endpoint_db_user
-    volumes:
-      - rest_endpoint_db_data:/var/lib/postgresql/data/:Z
+
+  nsdf_catalog_index:
+    build:
+      context: ./src/services/index-clickhouse
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+      - '9005:9005'
+
+
+#  # State of REST Endpoint: e.g, list of registered users, repositories
+#  rest_endpoint_db:
+#    image: docker.io/postgres:14
+#    expose:
+#      - 5432
+#    environment:
+#      - POSTGRES_DB=rest_endpoint_db
+#      - POSTGRES_USER=hello_fastapi
+#      - POSTGRES_PASSWORD=hello_fastapi
+#    volumes:
+#      - rest_endpoint_db_data:/var/lib/postgresql/data/:Z
 
   # Frontend
   frontend:

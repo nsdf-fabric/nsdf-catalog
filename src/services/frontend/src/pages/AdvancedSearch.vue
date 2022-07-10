@@ -4,13 +4,12 @@
 
         <div style="margin: 1em;">
             <h5>
-                <img src="~/assets/nsdf/logo.png" style="height: 1em;"/>
                 <span style="color: grey;">Advanced Search:</span>
             </h5>
 
             <q-form 
                 class="q-gutter-md" 
-                action="#/results"
+                action="#/search"
                 method="get"
                 >
 
@@ -21,6 +20,7 @@
                 </q-input>
 
                 <q-select
+                    name="origin"
                     filled
                     v-model="repo_selection"
                     multiple
@@ -32,7 +32,7 @@
 
                     <div>
                         <q-btn label="Search" type="submit" color="primary"/>
-                            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                     </div>
 
             </q-form>
@@ -45,12 +45,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { 
+    defineComponent, 
+    ref, 
+    watch,
+    onMounted,
+    computed
+} from 'vue';
+import { useQuasar } from 'quasar';
+import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
 	name: 'IndexPage',
 	setup() {
+        const $q = useQuasar()
+        const router = useRouter()
+        const route = useRoute()
 
+        // data exposed to public and templates
 		return { 
 			search: ref(''),
 

@@ -1,25 +1,25 @@
 <template>
   <q-layout view="hHh lpR ffr">
 
-    <q-header bordered class="bg-white text-grey-8">
+    <q-header class="bg-white text-grey-8">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-            <img src="~/assets/nsdf/logo.png" style="height: 1em; position: relative; top: 3px;">
-            NSDF Data Catalog
+            <a href="/" style="text-decoration: none;" class="text-grey-8">
+                <img src="~/assets/nsdf/logo.png" style="height: 1em; position: relative; top: 3px; margin-right: 0.5em;">
+                <span style="font-size: 0.8em;">Data Catalog</span>
+            </a>
         </q-toolbar-title>
 
-        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
+        <!-- <q-btn dense flat round icon="menu" @click="toggleRightDrawer" /> -->
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
+    <q-drawer v-model="leftDrawerOpen" side="left" bordered dark>
       <!-- drawer content -->
       <q-list>
-        <q-item-label
-          header
-        >
+        <q-item-label header>
           Additional Resources
         </q-item-label>
 
@@ -39,10 +39,10 @@
       <router-view />
     </q-page-container>
 
-    <q-footer class="bg-grey-8 text-white">
-        <q-toolbar class="items-center" style="background-color: black;">
+    <q-footer class="bg-white text-grey">
+        <q-toolbar class="items-center justify-center">
             <img src="~assets/nsf/NSF_4-Color_bitmap_Logo.png" style="height: 2em; margin-right: 1em;" />
-	This material is based upon work supported by the National Science Foundation under Grant No. 2138811.
+This material is based upon work supported by the National Science Foundation under Grant No. 2138811.
         </q-toolbar>
     </q-footer>
 

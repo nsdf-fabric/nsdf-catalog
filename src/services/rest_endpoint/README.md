@@ -1,6 +1,5 @@
-# REST Endpoint
+# NSDF-Catalog REST Endpoint
 
-This REST Endpoint serves two purposes:
-
-    * Backend for the web-based search frontend (VUE-based SPA)
-    * Backend for searches through the Python client library (nsdf-data-catalog)
+The NSDF-Catalog REST Endpoint serves the following purposes:
+ * Backend for the web-based search frontend (VUE-based SPA)
+ * Backend for searches through the Python client library (nsdf-catalog)

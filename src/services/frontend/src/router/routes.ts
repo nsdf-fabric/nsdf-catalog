@@ -15,13 +15,13 @@ const routes: RouteRecordRaw[] = [
 
 
   {
-    path: '/results',
+    path: '/search',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/ResultsPage.vue') }],
   },
 
   {
-    path: '/entry',
+    path: '/entry/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/EntryPage.vue') }],
   },
