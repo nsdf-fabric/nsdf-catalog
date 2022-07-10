@@ -1,5 +1,6 @@
 import os
 from datetime import datetime, timedelta
+
 from typing import Optional
 
 from fastapi import Depends, HTTPException, Request
@@ -8,7 +9,7 @@ from fastapi.security import OAuth2
 from fastapi.security.utils import get_authorization_scheme_param
 from jose import JWTError, jwt
 
-from src.schemas.token import TokenData
+#from src.schemas.token import TokenData
 
 
 SECRET_KEY = os.environ.get("SECRET_KEY")

@@ -5,7 +5,6 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
-from tortoise.contrib.fastapi import HTTPNotFoundError
 
 
 from src.auth.jwthandler import (
@@ -16,6 +15,30 @@ from src.auth.jwthandler import (
 
 
 router = APIRouter()
+
+
+
+@router.post("/auth/token")
+async def get_token():
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": "anonymous"}, expires_delta=access_token_expires
+    )
+    token = jsonable_encoder(access_token)
+    content = {"message": "You've successfully logged in. Welcome back!"}
+    response = JSONResponse(content=content)
+    response.set_cookie(
+        "Authorization",
+        value=f"Bearer {token}",
+        httponly=True,      # prevents client-side scripts from accessing cookie, against XSS attacks
+        max_age=1800,
+        expires=1800,       # expire after 30 minutes
+        samesite="Lax",     # cookies are not send with every request, against CSRF attacks
+        secure=False,       # ensure/disable HTTPS, TODO: set to True for production!
+    )
+
+    return response
 
 
 @router.post("/auth/login")
