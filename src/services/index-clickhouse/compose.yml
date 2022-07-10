@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  nsdf_catalog_index:
+    build:
+      context: ./
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+      - '9005:9005'
+
