@@ -22,7 +22,7 @@ And a REST API at:
 
 ## Production Deployment
 
-It is highly recommended to run NSDF-catalog instances through a domain name for HTTPS.
+It is highly recommended to run NSDF-catalog instances through a domain name to allow for HTTPs.
 
  * (A domain to allow HTTPs via LetsEncrypt/Certbot)
  * A publically available IP
