@@ -6,7 +6,7 @@ NSDF-Catalog provides an indexing service of known datasets/objects/files to an 
 
 The fastest way to get started is to use docker-compose:
 
-    § docker-compose up
+    $ docker-compose up
 
 This spawns various containerized microserves which together form a NSDF-compatible indexing service.
 An graphical overview is documented in (./docs/figures/overview.drawio).
