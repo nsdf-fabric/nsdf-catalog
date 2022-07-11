@@ -17,7 +17,7 @@ It should now be possible to access a web frontend at:
 
 And a REST API at:
 
-    http://localhost:80/api
+    http://localhost:80/api/v1
 
 
 ## Production Deployment
