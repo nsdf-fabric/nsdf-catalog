@@ -4,7 +4,7 @@ import axios from 'axios'
 //const api = axios.create({ baseURL: 'https://api.catalog.nationalsciencedatafabric.org/' })
 const api = axios.create({ 
     //withCredentials: true,
-    baseURL: 'http://localhost:5000/',
+    baseURL: '/api',
 })
 
 export default boot(({ app }) => {
