@@ -18,12 +18,11 @@ services:
   nsdf_catalog_index:
     build:
       context: ./src/services/index-clickhouse
-
-    environment:
-      - CLICKHOUSE_DB=nsdf_catalog_benchmark
-      - CLICKHOUSE_USER=admin
-      - CLICKHOUSE_PASSWORD=8ru2leTVnRW4vTTJ
-      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+#    environment:
+#      - CLICKHOUSE_DB=nsdf_catalog_benchmark
+#      - CLICKHOUSE_USER=admin
+#      - CLICKHOUSE_PASSWORD=8ru2leTVnRW4vTTJ
+#      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
     ports:
       - '8123:8123'
       - '9000:9000'
