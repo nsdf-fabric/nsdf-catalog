@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # REST Endpoint
+  rest_endpoint:
+    build: 
+      context: ./src/services/rest_endpoint
+    ports:
+      - 5000:5000
+    environment:
+      - NSDF_CATALOG_INDEX_HOST=nsdf_catalog_index
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+    volumes:
+      - ./src/services/rest_endpoint:/app:Z
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 5000
+
+  # DBMS that holds index of catalog
+  nsdf_catalog_index:
+    build:
+      context: ./src/services/index-clickhouse
+    volumes:
+      # Mount the index-clickhouse data folder
+      - ./{{ catalog_index_data_directory }}:/var/lib/clickhouse
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+      - '9005:9005'
+
+  # Frontend
+  frontend:
+    build:
+      context: ./src/services/frontend
+      target: 'develop-stage'
+    ports:
+      - '8080:8080'
+    volumes:
+      - './src/services/frontend:/app'
+    command: /bin/sh -c "yarn && quasar dev"
+
+
+  nginx:
+    build:
+      context: ./src/services/nginx
+    restart: unless-stopped
+    volumes:
+      # Mount the nginx folder with the configuration
+      - ./{{ nginx_conf_directory }}/nginx:/etc/nginx/conf.d
+      # Mount the letsencrypt certificates
+      - ./{{ certbot_conf_directory }}:/etc/letsencrypt:ro
+      # Mount the certbot renewal wwwroot
+      - ./{{ certbot_www_directory }}:/var/www/certbot:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+{% if ssl == True %}
+  certbot:
+    image: docker.io/certbot/certbot
+    restart: unless-stopped
+    volumes:
+      # Mount the letsencrypt certificates
+      - ./{{ certbot_conf_directory }}:/etc/letsencrypt
+      # Mount the certbot renewal wwwroot
+      - ./{{ certbot_www_directory }}:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot --webroot-path /var/www/certbot/; sleep 12h & wait $${!}; done;'"
+{% endif %}
+
+
