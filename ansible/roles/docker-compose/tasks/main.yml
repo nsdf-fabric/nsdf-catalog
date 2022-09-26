@@ -24,7 +24,4 @@
 - name: Run docker-compose up
   docker_compose:
     project_src: "{{ project_root_directory }}/"
-    state: present
-
-#- name: Restart docker-compose if needed
-#  meta: flush_handlers
+    state: "{{ docker_compose_up | default('present', true) }}"
