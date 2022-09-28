@@ -20,17 +20,11 @@ services:
       context: ./src/services/index-clickhouse
     volumes:
       # Mount the index-clickhouse data folder
-      - ./src/services/index-clickhouse/data:/var/lib/clickhouse
-   environment:
-      - CLICKHOUSE_DB=nsdf_catalog_benchmark
-      - CLICKHOUSE_USER=admin
-      - CLICKHOUSE_PASSWORD=8ru2leTVnRW4vTTJ
-      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+      - ./{{ catalog_index_data_directory }}:/var/lib/clickhouse
     ports:
       - '8123:8123'
       - '9000:9000'
       - '9005:9005'
-
 
   # Frontend
   frontend:
@@ -50,14 +44,26 @@ services:
     restart: unless-stopped
     volumes:
       # Mount the nginx folder with the configuration
-      - ./src/services/nginx/data/nginx:/etc/nginx/conf.d
+      - ./{{ nginx_conf_directory }}/nginx:/etc/nginx/conf.d
       # Mount the letsencrypt certificates
-      - ./src/services/certbot/data/conf:/etc/letsencrypt:ro
+      - ./{{ certbot_conf_directory }}:/etc/letsencrypt:ro
       # Mount the certbot renewal wwwroot
-      - ./src/services/certbot/data/www:/var/www/certbot:ro
+      - ./{{ certbot_www_directory }}:/var/www/certbot:ro
     ports:
       - "80:80"
       - "443:443"
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+{% if ssl == True %}
+  certbot:
+    image: docker.io/certbot/certbot
+    restart: unless-stopped
+    volumes:
+      # Mount the letsencrypt certificates
+      - ./{{ certbot_conf_directory }}:/etc/letsencrypt
+      # Mount the certbot renewal wwwroot
+      - ./{{ certbot_www_directory }}:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot --webroot-path /var/www/certbot/; sleep 12h & wait $${!}; done;'"
+{% endif %}
 
 

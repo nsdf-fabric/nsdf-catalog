@@ -1,0 +1,27 @@
+---
+- name: Copy the nginx template files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ project_root_directory }}/{{ nginx_conf_directory }}/{{ item }}"
+    mode: '0644'
+  with_items:
+    - nginx/app.conf
+  notify: "update docker-compose"
+
+- name: Copy the Docker compose template files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ project_root_directory }}/{{ item }}"
+    mode: '0644'
+  with_items:
+    - compose.yml
+  notify: "update docker-compose"
+
+- name: Get inital SSL certs with certbot
+  include_tasks: certbot.yml
+  when: ssl|default(false)|bool == true
+
+- name: Run docker-compose up
+  docker_compose:
+    project_src: "{{ project_root_directory }}/"
+    state: "{{ docker_compose_up | default('present', true) }}"

@@ -1,0 +1,8 @@
+---
+hostname: 
+project_root_directory: ..
+catalog_index_data_directory: src/services/index-clickhouse/data
+nginx_conf_directory: src/services/nginx/data
+certbot_conf_directory: src/services/certbot/data/conf
+certbot_www_directory: src/services/certbot/data/www
+ssl: false

@@ -1,0 +1,17 @@
+---
+- name: Run docker-compose down
+  docker_compose:
+    project_src: "{{ project_root_directory }}/"
+    state: absent
+  listen: "update docker-compose"
+
+- name: Run docker-compose up
+  docker_compose:
+    project_src: "{{ project_root_directory }}/"
+    state: present
+  listen: "update docker-compose"
+
+- name: Give the docker-compose containers time to start
+  pause:
+    seconds: 10
+  listen: "update docker-compose"
