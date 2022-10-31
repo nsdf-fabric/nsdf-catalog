@@ -69,7 +69,7 @@ NSDF-catalog was created by the [NSDF team](https://nationalsciencedatafabric.or
 
 If you are referencing NSDF-catalog in a publication, please cite the following paper:
 
--  Jakob Luettgau, Giorgio Scorzelli, Valerio Pascucci, Glenn Tarcea, Christine R. Kirkpatrick and Michela Taufer. *NSDF-Catalog: Lightweight Indexing Service  for Democratizing Data Delivery*. UCC Main Conference.
+- Jakob Luettgau, Giorgio Scorzelli, Glenn Tarcea, Christine R. Kirkpatrick, Valerio Pascucci and Michela Taufer. *NSDF-Catalog: Lightweight Indexing Service for Democratizing Data Delivery*. In Proceedings of the 15th IEEE/ACM International Conference on Utility and Cloud Computing (UCC), pages 1–10, Seattle, WA, USA, December 2022. IEEE Computer Society.
 
 On GitHub, you can copy this citation in APA or BibTeX format via the "Cite this repository" button.  
 
