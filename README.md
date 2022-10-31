@@ -78,8 +78,7 @@ On GitHub, you can copy this citation in APA or BibTeX format via the "Cite this
 NSDF-Catalog is distributed under the terms of the BSD-3-Clause license.
 All new contributions must be made under the BSD-3-Clause license.
 
-See [LICENSE-MIT](https://github.com/nsdf-fabric/nsdf-catalog/blob/develop/LICENSE),
-) for details.
+See [LICENSE](https://github.com/nsdf-fabric/nsdf-catalog/blob/develop/LICENSE) for details.
 
 SPDX-License-Identifier: (BSD-3-Clause)
 
