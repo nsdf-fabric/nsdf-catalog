@@ -29,7 +29,7 @@ And a REST API at:
     http://localhost:80/api/v1
 
 
-## Production Deployment
+### Production Deployment
 
 It is highly recommended to run NSDF-catalog instances through a domain name to allow for HTTPs.
 
@@ -38,7 +38,7 @@ It is highly recommended to run NSDF-catalog instances through a domain name to 
  * A machine (physical or virtual) to spawn multiple containers
 
 
-# Community
+## Community
 
 NSDF-catalog is an open source project.  Questions, discussion, and
 contributions are welcome. Contributions can be anything from new
@@ -61,11 +61,11 @@ NSDF-catalog's`develop` branch has the latest contributions. Pull requests
 should target `develop`, and users who want the latest package versions,
 features, etc. can use `develop`.
 
-# Authors
+## Authors
 
 NSDF-catalog was created by the [NSDF team](https://nationalsciencedatafabric.org/contributors.html) . To reach out email us at [info@nationalsciencedatafabric.org](email:info@nationalsciencedatafabric.org)
 
-# Citing NSDF-Catalog
+## Citing NSDF-Catalog
 
 If you are referencing NSDF-catalog in a publication, please cite the following paper:
 
@@ -73,7 +73,7 @@ If you are referencing NSDF-catalog in a publication, please cite the following 
 
 On GitHub, you can copy this citation in APA or BibTeX format via the "Cite this repository" button.  
 
-# License
+## License
 
 NSDF-Catalog is distributed under the terms of the BSD-3-Clause license.
 All new contributions must be made under the BSD-3-Clause license.
