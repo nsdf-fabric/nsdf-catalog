@@ -21,7 +21,7 @@ services:
     volumes:
       # Mount the index-clickhouse data folder
       - ./src/services/index-clickhouse/data:/var/lib/clickhouse
-   environment:
+    environment:
       - CLICKHOUSE_DB=nsdf_catalog_benchmark
       - CLICKHOUSE_USER=admin
       - CLICKHOUSE_PASSWORD=8ru2leTVnRW4vTTJ

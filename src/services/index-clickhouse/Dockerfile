@@ -10,4 +10,4 @@ COPY etc/clickhouse-server/config.d/enable_postgresql_interface.xml /etc/clickho
 #RUN pip install --upgrade pip
 #RUN pip install -r requirements.txt
 
-COPY src/ .
+#COPY src/ .
