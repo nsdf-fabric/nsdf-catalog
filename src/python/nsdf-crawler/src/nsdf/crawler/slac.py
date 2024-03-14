@@ -1,92 +1,43 @@
 import boto3
 from botocore.client import Config
-
-config = Config(signature_version="s3v4")
-# s3 = boto3.resource(
-#     "s3",
-#     endpoint_url="https://maritime.sealstorage.io/api/v0/s3",
-#     aws_access_key_id="any",
-#     aws_secret_access_key="any",
-#     config=config,
-#     verify=False,
-# )
-# bucket = s3.Bucket("utah")
+import csv
 
 
-def get_bucket_details(bucket):
+def write_csv(filename, rows):
     """
-    :param bucket: the bucket to be checked
-    :return: the response from the head_bucket request
+    :param filename: name to create the file
+    :param rows: list of objects
     """
-
-    bucket_prefix = bucket.split(".")[0]
-    site = bucket.replace("%s." % bucket_prefix, "")
-
-    s3 = boto3.client(
-        "s3",
-        endpoint_url="https://maritime.sealstorage.io/api/v0/s3",
-        aws_access_key_id="any",
-        aws_secret_access_key="any",
-        config=config,
-        verify=False,
-    )
-    response = s3.head_bucket(Bucket=bucket_prefix)
-
-    return {
-        "bucket": bucket,
-        "name": bucket_prefix,
-        "site": site,
-        "bytes-used": int(
-            response["ResponseMetadata"]["HTTPHeaders"]["x-rgw-bytes-used"]
-        ),
-        "object-count": int(
-            response["ResponseMetadata"]["HTTPHeaders"]["x-rgw-object-count"]
-        ),
-    }
+    with open(filename, "wt") as f:
+        csv.writer(f).writerows(rows)
 
 
-def get_object_list(bucket, prefix=""):
-    """
-    :param bucket: the bucket to be checked
-    :param prefix: limits the response to keys that begin with the specified prefix
-    :return: the response from the list_objects request
-    """
-
-    bucket_prefix = bucket.split(".")[0]
-    site = bucket.replace("%s." % bucket_prefix, "")
-    print(site, bucket_prefix)
-    max_keys = get_bucket_details(bucket)["object-count"]
-
+def get_files_on_s3_resource(bucket_name, folder_path):
     s3 = boto3.resource(
         "s3",
-        endpoint_url="https://maritime.sealstorage.io/api/v0/s3",
+        endpoint_url="https://%s" % "maritime.sealstorage.io/api/v0/s3",
         aws_access_key_id="any",
         aws_secret_access_key="any",
-        config=config,
+        config=Config(signature_version="s3v4"),
         verify=False,
     )
-
-    # Get the list of objects for the bucket
-    objects = s3.list_objects_v2(Bucket=bucket_prefix, MaxKeys=max_keys, Prefix=prefix)[
-        "Contents"
-    ]
-
+    bucket = s3.Bucket(bucket_name)
+    folder_objects = list(bucket.objects.filter(Prefix=folder_path))
     reformat_objects = []
-
-    # Reformat the response
-    for object in objects:
+    for file in folder_objects:
         reformat_objects.append(
             [
                 "SLAC",
-                bucket,
-                object["Key"],
-                object["Size"],
-                object["LastModified"],
-                object["ETag"],
+                bucket.name,
+                file.key,
+                file.size,
+                file.last_modified,
+                file.e_tag,
             ]
         )
-
     return reformat_objects
 
 
-print(get_object_list("utah"))
+if __name__ == "__main__":
+    data = get_files_on_s3_resource("utah", "supercdms-data/CDMS/UMN/")
+    write_csv("slac.csv", data)
